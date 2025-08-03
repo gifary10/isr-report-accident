@@ -1,0 +1,38 @@
+.chart-container {
+    position: relative;
+    margin: 0 auto 1.5rem;
+    height: 200px;
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#department-accidents-chart {
+    height: 250px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+@media (max-width: 576px) {
+    .chart-container {
+        height: 180px;
+    }
+    
+    #department-accidents-chart {
+        height: 220px;
+    }
+    
+    .chart-filters {
+        flex-direction: column;
+    }
+    
+    .chart-filters .col-md-4 {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+}

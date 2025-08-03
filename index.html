@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#fa800c" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Investigasi Kecelakaan Kerja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/charts.css">
+</head>
+<body>
+    <header class="bg-primary text-white py-2" style="background: linear-gradient(180deg, var(--primary), var(--secondary));">
+    <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="h6 mb-0 px-2 py-1" style="background-color: rgba(0, 0, 0, 0.6); border-radius: 5px;">Accident Investigation Report</h1>
+        <img src="logop.png" alt="Logo Perusahaan" height="30">
+    </div>
+</header>
+    
+    <nav class="navbar navbar-expand navbar-dark bg-secondary py-1">
+        <div class="container">
+            <ul class="navbar-nav w-100 justify-content-between">
+                <li class="nav-item"><a class="nav-link active" href="#dashboard" data-page="dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#new-report" data-page="new-report">Input</a></li>
+                <li class="nav-item"><a class="nav-link" href="#reports" data-page="reports">Daftar</a></li>
+                <li class="nav-item"><a class="nav-link" href="#statistics" data-page="statistics">Statistik</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container py-3">
+       <!-- Dashboard Page -->
+<div id="dashboard" class="page active">
+    <h2 class="h5 mb-2 border-bottom pb-1">Dashboard</h2>
+    <div class="row g-2 mb-3">
+        <div class="col-4">
+            <div class="bg-info text-white p-2 rounded text-center">
+                <h3 class="h6 mb-1">Total</h3>
+                <p class="h5 mb-0 fw-bold" id="total-reports">0</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bg-success text-white p-2 rounded text-center">
+                <h3 class="h6 mb-1">Bulan Ini</h3>
+                <p class="h5 mb-0 fw-bold" id="monthly-reports">0</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bg-danger text-white p-2 rounded text-center">
+                <h3 class="h6 mb-1">Serius</h3>
+                <p class="h5 mb-0 fw-bold" id="serious-accidents">0</p>
+            </div>
+        </div>
+    </div>
+    
+    <h3 class="h6 mb-2">Laporan Terbaru</h3>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped" id="recent-reports">
+            <thead class="bg-secondary text-white">
+                <tr>
+                    <th>Nama Korban</th>
+                    <th>Departemen</th>
+                    <th>Tanggal Kejadian</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan diisi oleh JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+        
+        <!-- New Report Page -->
+        <div id="new-report" class="page">
+            <h2 class="h5 mb-2 border-bottom pb-1">Buat Laporan Baru</h2>
+            
+            <form id="accident-report-form">
+                <!-- Informasi Laporan Section -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white py-2">
+                        <h3 class="h6 mb-0">Informasi Laporan</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label for="company-name" class="form-label small fw-bold">Nama Perusahaan:</label>
+                            <input type="text" class="form-control form-control-sm" id="company-name" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="report-number" class="form-label small fw-bold">Nomor Laporan:</label>
+                            <input type="text" class="form-control form-control-sm" id="report-number" readonly>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label for="report-date" class="form-label small fw-bold">Tanggal Laporan:</label>
+                            <input type="date" class="form-control form-control-sm" id="report-date" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Informasi Kejadian Section -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white py-2">
+                        <h3 class="h6 mb-0">Informasi Kejadian</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label for="accident-date" class="form-label small fw-bold">Tanggal Kejadian:</label>
+                            <input type="datetime-local" class="form-control form-control-sm" id="accident-date" required>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="location" class="form-label small fw-bold">Lokasi Kejadian:</label>
+                            <input type="text" class="form-control form-control-sm" id="location" required>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="department" class="form-label small fw-bold">Departemen:</label>
+                            <input type="text" class="form-control form-control-sm" id="department" required>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="accident-type" class="form-label small fw-bold">Jenis Kecelakaan:</label>
+                            <div class="custom-select-wrapper">
+                                <select class="form-select form-select-sm" id="accident-type" required>
+                                    <option value="">Pilih Jenis</option>
+                                    <!-- Options will be populated from master-data.js -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label for="accident-desc" class="form-label small fw-bold">Deskripsi Kejadian:</label>
+                            <textarea class="form-control form-control-sm" id="accident-desc" rows="3" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Informasi Korban Section -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white py-2">
+                        <h3 class="h6 mb-0">Informasi Korban</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label for="injured-person" class="form-label small fw-bold">Nama Korban:</label>
+                            <input type="text" class="form-control form-control-sm" id="injured-person" required>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="injury-type" class="form-label small fw-bold">Jenis Cedera:</label>
+                            <div class="custom-select-wrapper">
+                                <select class="form-select form-select-sm" id="injury-type" required>
+                                    <option value="">Pilih Jenis</option>
+                                    <!-- Options will be populated from master-data.js -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="injured-part" class="form-label small fw-bold">Bagian yang Terluka:</label>
+                            <div class="custom-select-wrapper">
+                                <select class="form-select form-select-sm" id="injured-part" required>
+                                    <option value="">Pilih Bagian</option>
+                                    <!-- Options will be populated from master-data.js -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label for="witnesses" class="form-label small fw-bold">Saksi:</label>
+                            <textarea class="form-control form-control-sm" id="witnesses" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Investigasi Section -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white py-2">
+                        <h3 class="h6 mb-0">Investigasi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label for="immediate-action" class="form-label small fw-bold">Tindakan Segera:</label>
+                            <textarea class="form-control form-control-sm" id="immediate-action" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="root-cause" class="form-label small fw-bold">Penyebab Utama:</label>
+                            <textarea class="form-control form-control-sm" id="root-cause" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="corrective-action" class="form-label small fw-bold">Tindakan Korektif:</label>
+                            <textarea class="form-control form-control-sm" id="corrective-action" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label for="preventive-action" class="form-label small fw-bold">Tindakan Pencegahan:</label>
+                            <textarea class="form-control form-control-sm" id="preventive-action" rows="3" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Penanggung Jawab Section -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white py-2">
+                        <h3 class="h6 mb-0">Penanggung Jawab</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label for="investigator" class="form-label small fw-bold">Nama Investigator:</label>
+                            <input type="text" class="form-control form-control-sm" id="investigator" required>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <label for="supervisor" class="form-label small fw-bold">Nama Atasan:</label>
+                            <input type="text" class="form-control form-control-sm" id="supervisor" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-sm btn-primary">Simpan Laporan</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Reports List Page -->
+        <div id="reports" class="page">
+            <h2 class="h5 mb-2 border-bottom pb-1">Daftar Laporan</h2>
+            
+            <div class="d-flex mb-3">
+                <input type="text" class="form-control form-control-sm me-2" id="search-input" placeholder="Cari laporan...">
+                <button class="btn btn-sm btn-primary" id="search-btn">Cari</button>
+                <button class="btn btn-sm btn-outline-secondary ms-2" id="reset-search">Reset</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" id="reports-table">
+                    <thead class="bg-secondary text-white">
+                        <tr>
+                            <th>No. Laporan</th>
+                            <th>Tanggal</th>
+                            <th>Jenis Kecelakaan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Statistics Page -->
+        <div id="statistics" class="page">
+            <h2 class="h5 mb-2 border-bottom pb-1">Statistik Kecelakaan</h2>
+            
+            <div class="row mb-3 chart-filters">
+                <div class="col-md-4">
+                    <label for="year-filter" class="form-label small fw-bold">Tahun:</label>
+                    <div class="custom-select-wrapper">
+                        <select class="form-select form-select-sm" id="year-filter">
+                            <!-- Years will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="department-filter" class="form-label small fw-bold">Departemen:</label>
+                    <div class="custom-select-wrapper">
+                        <select class="form-select form-select-sm" id="department-filter">
+                            <option value="">Semua Departemen</option>
+                            <!-- Departments will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="type-filter" class="form-label small fw-bold">Jenis Kecelakaan:</label>
+                    <div class="custom-select-wrapper">
+                        <select class="form-select form-select-sm" id="type-filter">
+                            <option value="">Semua Jenis</option>
+                            <!-- Accident types will be populated from master-data.js -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="chart-container">
+                        <h3 class="h6 mb-2">Kecelakaan per Bulan</h3>
+                        <canvas id="monthly-accidents-chart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="chart-container">
+                        <h3 class="h6 mb-2">Jenis Kecelakaan</h3>
+                        <canvas id="accident-types-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h3 class="h6 mb-2">Kecelakaan per Departemen</h3>
+                        <canvas id="department-accidents-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Initialize jsPDF in global scope
+        window.jsPDF = window.jspdf.jsPDF;
+    </script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/reportService.js"></script>
+    <script src="js/chartService.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/pdfService.js"></script>
+    <script src="js/custom-dropdown.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/master-data.js"></script>
+</body>
+</html>

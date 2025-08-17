@@ -1,7 +1,7 @@
 :root {
-    --primary: #fa800c;
+    --primary: #1a1a1a;
     --primary-hover: #e0740a;
-    --secondary: #d32f2f;
+    --secondary: #444444;
     --light: #f8f9fa;
     --dark: #212529;
     --gray: #6c757d;
@@ -222,4 +222,5 @@ select.form-select {
     .no-print {
         display: none !important;
     }
+
 }
